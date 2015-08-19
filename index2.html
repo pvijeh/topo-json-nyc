@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!-- load D3 and TopoJSON //-->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+
+</head>
+<body>
+    
+
+
+<script>
+var width = 960,
+    height = 500;
+
+var projection = d3.geo.mercator()
+    .center([0, 5 ])
+    .scale(900)
+    .rotate([-180,0]);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var path = d3.geo.path()
+    .projection(projection);
+
+var g = svg.append("g");
+
+// load and display the World
+
+d3.json("simplified-nyc.json", function(error, topology) {
+
+    
+    console.log(topology);
+    
+    console.log(topology.objects.nycgeojson.geometries[0].properties);
+
+
+
+});
+
+</script>
+
+</body>
+</html>

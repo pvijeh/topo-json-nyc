@@ -1,0 +1,39 @@
+body {
+    background-color: oldlace;
+    margin: 8px;
+}
+
+div#block {
+    max-width: 950px;
+}
+
+svg {
+    background-color: white;
+    margin: 1px;
+    float: left;
+}
+
+.land {
+    fill: whitesmoke;
+}
+
+.outline {
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.state {
+    fill: none;
+    stroke: dimgray;
+    stroke-width: 1px;
+}
+
+.county {
+    fill: lightgrey;
+    stroke: whitesmoke;
+    stroke-width: 1px;
+}
+
+path.county:hover {
+    fill: red;
+}

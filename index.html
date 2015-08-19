@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>TopoJSON Demo</title>
+
+    <!-- load D3 and TopoJSON //-->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+
+    <!-- load custom CSS and JavaScript //-->
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+
+<body>
+<!-- placeholder SVGs //-->
+<div id="block">
+<svg id="final" width="10" height="10"></svg>
+<svg id="country" class="small" width="10" height="10"></svg>
+<svg id="states" class="small" width="10" height="10"></svg>
+<svg id="counties" class="small" width="10" height="10"></svg>
+</div>
+
+<!-- minimal JavaScript //-->
+<!-- see script.js for function definitions //-->
+<script>
+// where to load the files
+var baseURL = "https://gist.githubusercontent.com/mbostock/4090846/raw/";
+var countryJSON = "us.json";
+var stateTSV    = "us-state-names.tsv";
+var countyTSV   = "us-county-names.tsv";
+
+// stores names for all the states and counties
+var nameLookup = {};
+
+// select SVG by ID
+d3.select("svg#final")
+    .attr("width", 720)
+    .attr("height", 484);
+
+// select SVGs by Class
+d3.selectAll("svg.small")
+    .attr("width", 220)
+    .attr("height", 160);
+
+d3.json(baseURL + countryJSON, function(error, data) {
+    if (error) {
+        console.warn(countryJSON, error);
+        return;
+    }
+
+    console.log(countryJSON, "loaded");
+
+    // call draw functions defined in script.js
+    drawCountry(data, "country");
+    drawStates(data, "states");
+    drawCounties(data, "counties");
+    drawFinal(data, "final");
+});
+
+d3.tsv(
+    baseURL + stateTSV,         // url to file in gist
+    parseStateName,             // defined in script.js
+    function(error, data) {
+        if (error) {
+            console.warn(stateTSV, error);
+            return;
+        }
+
+        // update name lookup
+        // function defined in script.js
+        console.log(stateTSV, "loaded");
+        nameLookup = updateNameLookup(nameLookup, data);
+    }
+);
+
+d3.tsv(
+    baseURL + countyTSV,        // url to file in gist
+    parseCountyName,            // defined in script.js
+    function(error, data) {
+        if (error) {
+            console.warn(countyTSV, error);
+            return;
+        }
+
+        console.log(countyTSV, "loaded");
+
+        // update name lookup
+        // function defined in script.js
+        nameLookup = updateNameLookup(nameLookup, data);
+    }
+);
+
+</script>
+
+</body>
+</html>
